@@ -43,40 +43,64 @@ function Create() {
     }
 
     //post code
-    fetch("https://674e9de9635bad45618f3c1c.mockapi.io/books", {
+    fetch("https://696202ead9d64c761906b8f3.mockapi.io/books", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
-        alert("책 리스트가 추가되었습니다.");
-        onClickBtn();
+        if (response.ok) {
+          alert("책 리스트가 추가되었습니다.");
+          onClickBtn();
+        }
+        return response.json();
+      })
+      .then((createdBook) => {
+        console.log("생성된 책:", createdBook);
       })
       .catch((error) => {
         alert("에러가 발생했습니다. ");
         console.error(error);
       });
   }
+  
   return (
     <div>
-      <h1 class="modal-title fs-5" id="exampleModalLabel">
+      <h1 className="modal-title fs-5" id="exampleModalLabel">
         ADD BOOK
       </h1>
 
-      <div class="input-group">
-        NAME : <input onChange={onChangeInput} type="text" placeholder="name" name="name" />
+      <div className="input-group">
+        NAME : <input 
+          onChange={onChangeInput} 
+          type="text" 
+          placeholder="name" 
+          name="name"
+          ref={nameRef}
+        />
       </div>
-      <div class="input-group">
-        AUTHOR : <input onChange={onChangeInput} type="text" placeholder="author" name="author" />
+      <div className="input-group">
+        AUTHOR : <input 
+          onChange={onChangeInput} 
+          type="text" 
+          placeholder="author" 
+          name="author"
+          ref={authorRef}
+        />
       </div>
-      <div class="input-group">
-        PRICE : <input onChange={onChangeInput} type="number" placeholder="price" name="price" />
+      <div className="input-group">
+        PRICE : <input 
+          onChange={onChangeInput} 
+          type="number" 
+          placeholder="price" 
+          name="price"
+          ref={priceRef}
+        />
       </div>
       <button type="button" onClick={onClickBtn}>
         Close
       </button>
-      <button type="button" class="btn btn-primary" onClick={postDataToJSONFile}>
+      <button type="button" className="btn btn-primary" onClick={postDataToJSONFile}>
         Add
       </button>
     </div>

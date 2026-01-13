@@ -12,13 +12,13 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<List />} /> */}
-          {/* <Route path="/list" element={<List />} /> */}
-          {/* <Route path="/create" element={<Create />} /> */}
-          {/* <Route path="/update" element={<Update />} /> */}
-          <Route path="/" element={<GoogleLogin />} />
+          <Route path="/" element={<List />} /> 
+          <Route path="/list" element={<List />} /> 
+          <Route path="/create" element={<Create />} /> 
+          <Route path="/update" element={<Update />} /> 
+         {/*  <Route path="/" element={<GoogleLogin />} />*/}
           <Route path="/test" element={<TestPage />} />
-          <Route path="/loading" element={<Loading />} />
+          {/* <Route path="/loading" element={<Loading />} />*/}
         </Routes>
       </BrowserRouter>
     </>

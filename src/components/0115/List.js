@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./List.css";
 import $ from "jquery";
 import { useNavigate } from "react-router-dom";
@@ -7,16 +7,17 @@ function List() {
   const navigate = useNavigate();
 
   //get code
-  function getDataFromJSONFile() {
-    fetch("https://674e9de9635bad45618f3c1c.mockapi.io/books")
+    function getDataFromJSONFile() {
+    fetch("https://696202ead9d64c761906b8f3.mockapi.io/books")
       .then((response) => response.json())
       .then((book) => {
         console.log(book);
         $("#div_BookList").html("");
         book.forEach((item) => {
+          const bookId = item.id || item.ID || "N/A";
           $("#div_BookList").append(`
                 <div class="book-item">
-                  <span class="book-id">${item.id}</span>
+                  <span class="book-id">${bookId}</span>
                   <span class="book-name">${item.name}</span>
                   <span class="book-author">${item.author}</span>
                   <span class="book-price">${item.price}</span>
@@ -25,13 +26,16 @@ function List() {
         });
       });
   }
-  function deleteDataFromJSONFile() {
-    let id = $("#book_id_delete").val();
-    /* 
-    delete code 작성 ~
-    */
-  }
-  window.onload = getDataFromJSONFile();
+  
+ function deleteDataFromJSONFile() {
+//delete 코드 짜기
+}
+
+
+  
+  useEffect(() => {
+    getDataFromJSONFile();
+  }, []);
 
   const onClickCreate = () => {
     navigate(`/create`);

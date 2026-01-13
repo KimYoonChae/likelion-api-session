@@ -22,10 +22,9 @@ function Update() {
   };
 
   function updateDataToJSONFile() {
-    /*
-    update code작성 ~
-    */
-  }
+    //update 코드 짜기
+}
+
 
   return (
     <div>
