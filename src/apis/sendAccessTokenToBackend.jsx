@@ -2,18 +2,35 @@ import axios from "axios";
 
 const sendAccessTokenToBackend = async (code) => {
   try {
-    const serverResponse = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/auth/loginFormalMethod/callback`, {
-      params: { code: code },
-    });
-    // 서버로부터의 응답 처리
-    console.log("Login successful with server response:", serverResponse);
+    const response = await axios.post(
+      `${process.env.REACT_APP_HOST_URL}/auth/google`,
+      { code }
+    );
 
-    // memberId를 로컬 스토리지에 저장
-    localStorage.setItem("memberId", serverResponse.data.memberId);
+    console.log("Login successful with server response:", response);
 
-    return serverResponse.data;
+    // 토큰 저장 (백엔드가 token을 반환하는 경우)
+    if (response.data.token) {
+      localStorage.setItem("accessToken", response.data.token);
+      console.log("✅ 토큰 저장 완료!");
+    }
+
+    // memberId 저장 (백엔드가 memberId를 반환하는 경우)
+    if (response.data.memberId) {
+      localStorage.setItem("memberId", response.data.memberId);
+      console.log("✅ memberId 저장 완료!");
+    }
+
+    // 사용자 정보 저장 (선택사항)
+    if (response.data.user) {
+      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+      console.log("✅ 사용자 정보 저장 완료!");
+    }
+
+    return response.data;
+    
   } catch (error) {
-    console.error("Login failed with error:", error);
+    console.error("❌ Login failed with error:", error);
     throw error;
   }
 };

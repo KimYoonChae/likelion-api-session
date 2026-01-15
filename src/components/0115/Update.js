@@ -21,10 +21,9 @@ function Update() {
     });
   };
 
-  function updateDataToJSONFile() {
-    //update 코드 짜기
+function updateDataToJSONFile() {
+ //코드 작성
 }
-
 
   return (
     <div>

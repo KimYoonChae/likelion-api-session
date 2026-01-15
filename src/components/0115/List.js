@@ -28,7 +28,7 @@ function List() {
   }
   
  function deleteDataFromJSONFile() {
-//delete 코드 짜기
+   
 }
 
 
