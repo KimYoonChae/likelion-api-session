@@ -28,7 +28,13 @@ function List() {
   }
   
  function deleteDataFromJSONFile() {
-   
+   /*
+    TODO: (선택) 실습
+    - 'https://696202ead9d64c761906b8f3.mockapi.io/books/:id' 주소로 fetch API를 사용해 DELETE 요청을 보내세요.
+    - 삭제할 책의 ID는 '#book_id_delete' input에서 값을 가져와 사용하세요.
+    - 요청이 성공하면 alert로 알림을 띄우고, getDataFromJSONFile() 함수를 다시 호출하여 목록을 새로고침하세요.
+    - ID가 입력되지 않았을 경우 alert로 사용자에게 알려주세요.
+   */
 }
 
 

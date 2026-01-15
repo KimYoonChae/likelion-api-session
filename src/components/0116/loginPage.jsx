@@ -13,12 +13,17 @@ google oauth에서 만든 client id와 redirecton url 그리고 어떤 토큰을
 
 const GoogleLogin = () => {
   const handleGoogleLogin = () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?
-		client_id=${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}
-		&redirect_uri=${process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URI}
-		&response_type=code
-		&scope=email profile
-    `;
+    /*
+    TODO: 1단계
+    - 구글 로그인 버튼을 클릭하면 구글 인증 화면으로 이동하도록 URL을 완성하세요.
+    - client_id, redirect_uri는 .env 파일에 저장된 환경 변수를 사용해야 합니다.
+    - 사용자의 구글 이메일과 프로필 정보를 받기 위해 scope를 설정하세요.
+    - 백엔드와 통신하기 위해 response_type을 'code'로 설정하세요.
+    */
+    const googleLoginUrl = ``; // 이 부분을 채워주세요.
+
+    // 완성된 URL로 이동
+    window.location.href = googleLoginUrl;
   };
 
   return (
