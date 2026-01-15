@@ -4,14 +4,16 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 /*
-사용자의 토큰을 받는 페이지
-이 페이지에서는 url 에 포함된 response token을 백엔드에 보내고 성공하면 메인화면으로 보내고 실패하면 에러처리를 할것이다. 
+사용자의 authorization code를 받는 페이지
 
-URLSearchParams를 통해 url에 있는 토큰을 추출하고 그 토큰을 axios를 사용해 backend에 보낸다. 
-
-이후 성공하면 navigate를 통해 메인화면으로 보낸다. 
-실패하면 에러처리 (알아서 ~)
-
+OAuth 2.0 플로우:
+1. 구글 로그인 성공 → 구글이 authorization code를 URL에 담아 리다이렉트
+2. URLSearchParams로 URL에서 authorization code 추출
+3. axios로 authorization code를 백엔드에 전송
+4. 백엔드가 구글에 code를 검증하고 access token 발급
+5. 백엔드에서 받은 access token을 localStorage에 저장
+6. 성공 시 → 테스트 페이지로 이동
+7. 실패 시 → 로그인 페이지로 이동
 */
 
 const Loading = () => {
@@ -20,15 +22,32 @@ const Loading = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // URL에서 authorization code 추출
         const parsedQuery = new URLSearchParams(window.location.search);
         const code = parsedQuery.get("code");
 
-        console.log("token: " + code);
+        console.log("Authorization code:", code);
 
+        // code가 없으면 에러 처리
+        if (!code) {
+          console.error("Authorization code가 URL에 없습니다.");
+          alert("로그인에 실패했습니다. 다시 시도해주세요.");
+          navigate("/");
+          return;
+        }
+
+        // 백엔드로 authorization code 전송
         await sendAccessTokenToBackend(code);
+        
+        // 성공 시 테스트 페이지로 이동
         navigate("/test");
+        
       } catch (error) {
         console.error("로그인 과정에서 에러가 발생했습니다.", error);
+        
+        // 실패 시 사용자에게 알림 후 로그인 페이지로 이동
+        alert("로그인에 실패했습니다. 다시 시도해주세요.");
+        navigate("/");
       }
     };
 
@@ -37,14 +56,14 @@ const Loading = () => {
 
   return (
     <div>
-      <LoginLoding>로그인 중입니다...</LoginLoding>
+      <LoginLoading>로그인 중입니다...</LoginLoading>
     </div>
   );
 };
 
 export default Loading;
 
-const LoginLoding = styled.div`
+const LoginLoading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,10 +1,5 @@
 /*
 jwt token test page 
-
-1. 저장한 token을 가져와서 저 api 요청의 token으로 넣어주면 된다. 
-2. 성공하면 인증성공이 나올것이고 실패하면 인증 실패가 나올 것
-3. 토큰을 잘 넣어 성공했다면, 토큰의 인증시간이 3분이니 3분 후에 다시 인증 실패가 나올것이다. 
-   이때 로그인 페이지로 이동시켜라(저장되어있는 토큰은 쓸모없으니 삭제시켜라)
 */
 
 import React, { useEffect, useState } from "react";
@@ -18,70 +13,51 @@ const TestPage = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        // 1. 저장한 token 가져오기
-        const token = localStorage.getItem("accessToken");
+        // TODO 1: localStorage에서 'accessToken' 가져오기
+        const token = null; // 이 부분을 수정하기
+    
+        const response = {}; // 이 부분을 채우기
+        /*
+        TODO 2: axios를 사용하여 백엔드에 인증 요청 보내기
+        - 요청 URL: 환경 변수에 저장된 REACT_APP_HOST_URL와 '/test'를 조합하여 만들기
+        - 요청 헤더(headers): Authorization 헤더에 위에서 가져온 token을 'Bearer' 형식으로 담아서 보내기
+        */
         
-        console.log("저장된 토큰:", token ? "있음" : "없음");
-        
-        if (!token) {
-          setAuthResult("❌ 토큰이 없습니다. 로그인이 필요합니다.");
-          // 2초 후 로그인 페이지로 이동
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-          return;
-        }
-
-        // 2. API 요청에 token 넣기
-        const response = await axios.get(
-          `${process.env.REACT_APP_HOST_URL}/test`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // 토큰 추가!
-            },
-          }
-        );
 
         console.log("서버 응답:", response.data);
 
-        // 3. 성공/실패 처리
+   
         if (response.data === 1) {
-          setAuthResult("✅ 인증 성공!");
+          setAuthResult("인증 성공!");
           
-          // 사용자 정보도 표시 (선택사항)
+
           const userInfo = localStorage.getItem("userInfo");
           if (userInfo) {
             const user = JSON.parse(userInfo);
-            setAuthResult(`✅ 인증 성공!
-환영합니다, ${user.name}님!
-이메일: ${user.email}`);
+            setAuthResult(`인증 성공! 환영합니다, ${user.name}님! 이메일: ${user.email}`);
           }
         } else {
-          // 인증 실패 - 토큰 삭제하고 로그인 페이지로
-          setAuthResult("❌ 인증 실패 (서버에서 0 반환)");
+          setAuthResult("인증 실패 (서버에서 0 반환)");
           console.log("인증 실패 - 토큰 삭제 및 로그인 페이지로 이동");
           
-          // 토큰 삭제
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("userInfo");
-          localStorage.removeItem("memberId");
+          /*
+          로컬스토리지에서 토큰을 삭제하는 코드를 작성하기
+          */
+  
+         
           
-          // 2초 후 로그인 페이지로 이동
+     
           setTimeout(() => {
             navigate("/");
           }, 2000);
         }
       } catch (error) {
-        // 에러 발생 - 토큰 삭제하고 로그인 페이지로
-        setAuthResult("❌ 인증 실패 (에러 발생)");
+   
+        setAuthResult("인증 실패 (에러 발생)");
         console.error("Error during authentication:", error);
         
-        // 토큰 삭제
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userInfo");
-        localStorage.removeItem("memberId");
+        // 위의 코드와 똑같이 토큰 삭제 코드를 작성하기
         
-        // 2초 후 로그인 페이지로 이동
         setTimeout(() => {
           navigate("/");
         }, 2000);
@@ -90,7 +66,6 @@ const TestPage = () => {
 
     fetchAuthStatus();
   }, [navigate]);
-
   return (
     <div style={{ padding: "2rem" }}>
       <h2>JWT 인증 테스트</h2>
